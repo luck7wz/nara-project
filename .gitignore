@@ -1,0 +1,68 @@
+# ==========================================
+# 1. SEGURANÇA E VARIÁVEIS DE AMBIENTE
+# ==========================================
+# Arquivos de segredos, senhas e configurações
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ==========================================
+# 2. BANCO DE DADOS E DADOS GERADOS
+# ==========================================
+# Banco SQLite local e artefatos de dados
+*.db
+*.sqlite
+*.sqlite3
+ubs.db
+
+# Mapas e relatórios HTML gerados por scripts
+mapa_*.html
+
+# ==========================================
+# 3. BACKEND PYTHON (FastAPI / Uvicorn)
+# ==========================================
+# Pastas de ambiente virtual (qualquer padrão que usar)
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# Caches do interpretador Python e testes
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ==========================================
+# 4. BACKEND JAVASCRIPT (Express / Node.js)
+# ==========================================
+# Dependências do Node
+node_modules/
+
+# Logs de execução e erros
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Builds e bundles (caso use Vite/Webpack no frontend)
+dist/
+build/
+
+# ==========================================
+# 5. SISTEMA OPERACIONAL & EDITORES (IDEs)
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.vscode/
+.idea/
+*.swp
+*.swo

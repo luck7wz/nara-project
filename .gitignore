@@ -40,22 +40,6 @@ __pycache__/
 .ruff_cache/
 
 # ==========================================
-# 4. BACKEND JAVASCRIPT (Express / Node.js)
-# ==========================================
-# Dependências do Node
-node_modules/
-
-# Logs de execução e erros
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Builds e bundles (caso use Vite/Webpack no frontend)
-dist/
-build/
-
-# ==========================================
 # 5. SISTEMA OPERACIONAL & EDITORES (IDEs)
 # ==========================================
 .DS_Store

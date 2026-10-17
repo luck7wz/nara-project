@@ -39,4 +39,4 @@ for _, row in df.iterrows():
     ).add_to(mapa)
 
 # 5. Salva o resultado em um arquivo HTML
-mapa.save("public/mapa_ubs_recife.html")
+mapa.save("static/mapa_ubs_recife.html")

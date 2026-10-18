@@ -1,0 +1,69 @@
+#iframe-mapa {
+    width: 100%;
+    height: 500px;
+    border: none;
+}
+
+.overlay-start {
+    position: fixed;
+    width: 100%; 
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.3); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+
+    backdrop-filter: blur(5px); 
+    display: flex;
+    z-index: 999999;
+    transition: opacity 0.8s ease, visibility 0.8s ease, backdrop-filter 0.8s ease;
+}
+
+.inicio {
+    padding: 4px 8px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: white;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.inico:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+}
+
+.site-ativo .overlay-start {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.conteudo-info {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.conteudo-info.ativo {
+    display: block;
+}
+
+.bloco-escolha.ativo {
+    background-color: #007BFF;
+    color: white;
+    border-color: #0056b3;
+}
+
+#abas {
+    display: none; 
+    margin-top: 20px;
+}

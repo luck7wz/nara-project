@@ -25,6 +25,49 @@ function fecharCard() {
     }
 }
 
+let controleRota = null;
+
+function calcularRota(latDestino, lngDestino) {
+    if (!navigator.geolocation) {
+        alert("O seu navegador não suporta geolocalização.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (posicao) => {
+            const latOrigem = posicao.coords.latitude;
+            const lngOrigem = posicao.coords.longitude;
+
+            // Se já tiver uma rota traçada, remove antes de criar a nova
+            if (controleRota) {
+                map.removeControl(controleRota);
+            }
+
+            controleRota = L.Routing.control({
+                position: 'topleft',
+
+                waypoints: [
+                    L.latLng(latOrigem, lngOrigem),
+                    L.latLng(latDestino, lngDestino)
+                ],
+                language: 'pt-BR',
+                show: true,
+                collapsible: true,
+                routeWhileDragging: false
+            }).addTo(map);
+
+            // Ajusta o zoom
+            map.fitBounds([
+                [latOrigem, lngOrigem],
+                [latDestino, lngDestino]
+            ], { padding: [50, 50] });
+        },
+        (erro) => {
+            alert("Permissão de localização negada ou indisponível.");
+        }
+    );
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // INICIALIZAÇÃO DO MAPA LEAFLET
@@ -68,6 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <p><strong>Horário de Atendimento:</strong> ${dados.horario || 'Não informado'}</p>
                                     <p><strong>Especialidades / Serviços:</strong> ${dados.especialidade || 'Não informado'}</p>
 
+                                    <button type="button" class="btn-rota" onclick="calcularRota(${dados.latitude},${dados.longitude})">
+                                        Como chegar
+                                    </button>
                                 `;
                             }
                         } catch (err) {

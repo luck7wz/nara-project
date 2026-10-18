@@ -1,11 +1,14 @@
+let map; 
+
 function iniciarSite() {
     document.body.classList.add('site-ativo');
-    const iframe = document.getElementById('iframe-mapa');
-    if (iframe && iframe.contentWindow) {
+
+    // Reajusta o tamanho do mapa nativo quando a animação/layout expande
+    if (map) {
         setTimeout(() => {
-            iframe.contentWindow.postMessage('invalidateSize', '*');
-            console.log("Mapa do Folium reajustado com sucesso!");
-        }, 800);
+            map.invalidateSize();
+            console.log("Mapa Leaflet reajustado com sucesso!");
+        }, 400);
     }
 
     const areaAbas = document.getElementById('abas');
@@ -15,7 +18,70 @@ function iniciarSite() {
     }
 }
 
+function fecharCard() {
+    const card = document.getElementById('card-detalhes-ubs');
+    if (card) {
+        card.classList.add('oculta');
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    // INICIALIZAÇÃO DO MAPA LEAFLET
+
+    const mapElement = document.getElementById('mapa-nara');
+    if (mapElement) {
+        // Coordenadas centrais de Recife
+        map = L.map('mapa-nara').setView([-8.0578, -34.9000], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const cardDetalhes = document.getElementById('card-detalhes-ubs');
+        const conteudoUbs = document.getElementById('conteudo-ubs');
+
+        // Carregar os pontos da API do FastAPI
+        fetch('/api/ubs/pontos')
+            .then(res => res.json())
+            .then(pontos => {
+                pontos.forEach(ponto => {
+                    const marker = L.marker([ponto.latitude, ponto.longitude]).addTo(map);
+                    marker.bindTooltip(ponto.nome_oficial);
+
+                    // Evento de clique para ir buscar os dados detalhados ao SQLite
+                    marker.on('click', async () => {
+                        if (cardDetalhes) cardDetalhes.classList.remove('oculta');
+                        if (conteudoUbs) conteudoUbs.innerHTML = '<p>A carregar detalhes...</p>';
+
+                        try {
+                            const res = await fetch(`/api/ubs/${ponto.id}`);
+                            const dados = await res.json();
+
+                            if (conteudoUbs) {
+                                conteudoUbs.innerHTML = `
+                                    <span class="badge-tipo">${dados.tipo_unidade || 'Unidade de Saúde'}</span>
+                                    <h3>${dados.nome_oficial}</h3>
+                                    <p><strong>Bairro:</strong> ${dados.bairro || 'Não informado'}</p>
+                                    <p><strong>Endereço:</strong> ${dados.endereço || 'Não informado'}</p>
+                                    <p><strong>Telefone:</strong> ${dados.fone || 'Não informado'}</p>
+                                    <p><strong>Horário de Atendimento:</strong> ${dados.horario || 'Não informado'}</p>
+                                    <p><strong>Especialidades / Serviços:</strong> ${dados.especialidade || 'Não informado'}</p>
+
+                                `;
+                            }
+                        } catch (err) {
+                            if (conteudoUbs) {
+                                conteudoUbs.innerHTML = '<p style="color: red;">Erro ao obter informações da base de dados.</p>';
+                            }
+                        }
+                    });
+                });
+            })
+            .catch(err => console.error("Erro ao carregar os pontos:", err));
+    }
+
+    // LÓGICA DAS ABAS
     const containerAbas = document.querySelector('.container-abas');
     if (!containerAbas) return;
 

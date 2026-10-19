@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nara</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <header> 
+        <!-- <img src="static/img/logo.png" alt="Logo Nara"> -->
+    </header>
+    
+    <main>
+        <!-- Seção do Mapa com Sobreposição -->
+        <section class="container-mapa">
+            <div class="overlay-start"> 
+                <h1>Cuidar de você<br>é garantir o acesso.</h1>
+                <h2>Encontre um ponto de coleta perto de você!</h2>
+                <button type="button" class="inicio" id="botao-mapa" onclick="iniciarSite()">Procurar</button>
+            </div>
+
+            <!-- Leaflet -->
+            <div id="mapa-nara" style="width: 100%; height: 500px;"></div>
+
+            <!-- Info unid -->
+            <div id="card-detalhes-ubs" class="card-detalhes oculta">
+                <button type="button" class="fechar-card" onclick="fecharCard()">&times;</button>
+                <div id="conteudo-ubs">
+                    <p>Selecione um ponto no mapa.</p>
+                </div>
+            </div>
+        </section>
+            
+        <!-- Abas Interativas -->
+        <section id="abas">  
+            <nav class="container-abas" aria-label="Navegação de abas">
+                <button type="button" class="bloco-escolha ativo" data-alvo="info1">Nos conheça</button>
+                <button type="button" class="bloco-escolha" data-alvo="info2">Exames</button>
+            </nav>
+
+            <div id="info1" class="conteudo-info ativo">
+                <h3>Quem nós somos?</h3>
+                <p>Texto sobre a instituição ou projeto.</p>
+                <button type="button">Conheça Mais</button>
+            </div>
+
+            <div id="info2" class="conteudo-info">
+                <h3>Exames</h3>
+                <ul>
+                    <li>Ovos: 3 unidades (em temperatura ambiente)</li>
+                    <li>Açúcar: 1 a 2 xícaras de chá (dependendo de quão doce você prefere)</li>
+                    <li>Gordura: 3 a 4 colheres de sopa de manteiga/margarina ou ½ xícara de chá de óleo</li>
+                    <li>Leite: 1 xícara de chá (cerca de 200 ml a 240 ml)</li>
+                    <li>Farinha de trigo: 2 xícaras de chá</li>
+                    <li>Fermento em pó: 1 colher de sopa (fermento químico para bolo)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+     
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="static/js/script.js"></script>
+</body>
+</html>

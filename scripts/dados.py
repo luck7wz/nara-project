@@ -12,7 +12,6 @@ tipo_unid_alvo = [
     '10.1|Hospital da Mulher', 
     '2.1|Unidades Básicas de Saúde', 
     '2.2|Unidades Saúde da Família', 
-    '2.4|Programa Mãe Coruja', 
     '3|Farmácias da Família', 
     '4.1|Unidades Saúde da Família', 
     '7|Policlínicas', 

@@ -24,6 +24,16 @@
                 <button type="button" class="inicio" id="botao-mapa" onclick="iniciarSite()">Procurar</button>
             </div>
 
+            <div class="filtros-mapa">
+                <button type="button" class="btn-filtro ativo" onclick="filtrarPontos('TODOS', event)">Todos</button>
+                <button type="button" class="btn-filtro" onclick="filtrarPontos('UBS_USF', event)">UBS / USF</button>
+                <button type="button" class="btn-filtro" onclick="filtrarPontos('POLICLINICA', event)">Policlínicas</button>
+                <button type="button" class="btn-filtro" onclick="filtrarPontos('MATERNIDADE', event)">Maternidades</button>
+                <button type="button" class="btn-filtro" onclick="filtrarPontos('HOSPITAL_MULHER', event)">Hospital da Mulher</button>
+                <button type="button" class="btn-filtro" onclick="filtrarPontos('FARMACIA', event)">Farmácias da Família</button>
+                <button type="button" class="btn-filtro" onclick="filtrarPontos('VACINACAO', event)">Vacinação</button>
+            </div>
+
             <!-- Leaflet -->
             <div id="mapa-nara" style="width: 100%; height: 500px;"></div>
 

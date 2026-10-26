@@ -82,8 +82,8 @@ function renderizarMarcadores(lista) {
         // 1. Cria o ícone com a imagem vinda do backend
         const iconeCustomizado = L.icon({
             iconUrl: ponto.icone_url || '/static/img/icones/default.png',
-            iconSize: [64.73, 103.75],
-            iconAnchor: [32.365, 103.75],
+            iconSize: [39.02, 62.54],
+            iconAnchor: [19.51, 62.54],
             popupAnchor: [0, -32]
         });
 

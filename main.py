@@ -5,6 +5,9 @@ from fastapi.responses import FileResponse
 import sqlite3
 import os
 
+# 1. Importa a lógica de ícones do mapa.py
+from scripts.mapa import definir_icone_unidade
+
 app = FastAPI(title="Nara - Rede de Saúde")
 
 # Habilita CORS caso precise testar em portas diferentes
@@ -35,8 +38,16 @@ def listar_pontos():
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute("SELECT id, nome_oficial, tipo_unidade, latitude, longitude FROM ubs")
-    pontos = [dict(row) for row in cursor.fetchall()]
+    linhas = cursor.fetchall()
     conn.close()
+
+    # 2. Adiciona o icone_url em cada ponto antes de retornar
+    pontos = []
+    for row in linhas:
+        item = dict(row)
+        item["icone_url"] = definir_icone_unidade(item.get("tipo_unidade"))
+        pontos.append(item)
+
     return pontos
 
 # Rota para buscar os detalhes completos da UBS clicada

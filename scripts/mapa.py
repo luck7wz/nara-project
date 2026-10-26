@@ -38,5 +38,19 @@ for _, row in df.iterrows():
         icon=folium.Icon(color='red', icon='plus-sign')
     ).add_to(mapa)
 
+ICONES_POR_TIPO = {
+    '10.1|Hospital da Mulher': '/static/img/icones/hospital.png',
+    '2.1|Unidades Básicas de Saúde': '/static/img/icones/ubs.png',
+    '2.2|Unidades Saúde da Família': '/static/img/icones/usf.png',
+    '3|Farmácias da Família': '/static/img/icones/farmacia.png',
+    '4.1|Unidades Saúde da Família': '/static/img/icones/usf.png',
+    '7|Policlínicas': '/static/img/icones/policlinica.png',
+    '8|Maternidades': '/static/img/icones/maternidade.png',
+    '5.2|Unidades de Vacinação': '/static/img/icones/vacina.png'
+}
+
+def definir_icone_unidade(tipo: str) -> str:
+    return ICONES_POR_TIPO.get(tipo, '/static/img/icones/default.png')
+
 # 5. Salva o resultado em um arquivo HTML
 mapa.save("static/mapa_ubs_recife.html")

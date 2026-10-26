@@ -71,7 +71,7 @@ function calcularRota(latDestino, lngDestino) {
     );
 }
 
-// Renderiza marcadores no layerGroup
+/// Renderiza marcadores no layerGroup
 function renderizarMarcadores(lista) {
     camadaMarcadores.clearLayers();
 
@@ -79,7 +79,19 @@ function renderizarMarcadores(lista) {
     const conteudoUbs = document.getElementById('conteudo-ubs');
 
     lista.forEach(ponto => {
-        const marker = L.marker([ponto.latitude, ponto.longitude]);
+        // 1. Cria o ícone com a imagem vinda do backend
+        const iconeCustomizado = L.icon({
+            iconUrl: ponto.icone_url || '/static/img/icones/default.png',
+            iconSize: [64.73, 103.75],
+            iconAnchor: [32.365, 103.75],
+            popupAnchor: [0, -32]
+        });
+
+        // 2. Passa o ícone customizado para o marcador
+        const marker = L.marker([ponto.latitude, ponto.longitude], {
+            icon: iconeCustomizado
+        });
+
         marker.bindTooltip(ponto.nome_oficial);
 
         marker.on('click', async () => {

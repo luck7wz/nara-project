@@ -223,3 +223,80 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+const telaBeneficios = document.getElementById('conteudo-info');
+const telaSaude = document.getElementById('tela-saude');
+const trilho = document.getElementById('trilho');
+const pontos = document.getElementById('pontos');
+
+let indice = 0;
+const CARDS_VISIVEIS = 3; // no celular vira 1 (veja abaixo)
+
+function abrirSaude() {
+    telaBeneficios.hidden = true;
+    telaSaude.hidden = false;
+    indice = 0;
+    atualizarCarrossel();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function voltarBeneficios() {
+    telaSaude.hidden = true;
+    telaBeneficios.hidden = false;
+}
+
+function visiveis() {
+    return window.innerWidth <= 700 ? 1 : CARDS_VISIVEIS;
+}
+
+function moverCarrossel(direcao) {
+    const total = trilho.children.length;
+    const maximo = Math.max(0, total - visiveis());
+    indice = Math.min(Math.max(indice + direcao, 0), maximo);
+    atualizarCarrossel();
+}
+
+function atualizarCarrossel() {
+    const card = trilho.children[0];
+    const passo = card.offsetWidth + 20; // largura do card + gap
+    trilho.style.transform = `translateX(-${indice * passo}px)`;
+
+    // bolinhas de paginação
+    const total = trilho.children.length;
+    pontos.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+        const p = document.createElement('span');
+        p.className = 'ponto' + (i === indice ? ' ativo' : '');
+        pontos.appendChild(p);
+    }
+}
+
+window.addEventListener('resize', atualizarCarrossel);
+
+function abrirPrograma(idTela) {
+    const tela = document.getElementById(idTela);
+    const carrossel = document.getElementById('tela-saude');
+    if (!tela || !carrossel) return;
+
+    carrossel.hidden = true;
+    tela.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function fecharPrograma() {
+    document.querySelectorAll('.programa').forEach(p => p.hidden = true);
+    document.getElementById('tela-saude').hidden = false;
+    atualizarCarrossel();
+}
+
+// Botão "Localizar pontos": sobe até o mapa e filtra farmácias
+function irParaMapa() {
+    document.querySelectorAll('.programa').forEach(p => p.hidden = true);
+    document.getElementById('tela-saude').hidden = false;
+
+    document.getElementById('mapa-nara').scrollIntoView({ behavior: 'smooth' });
+    filtrarPontos('FARMACIA', {
+        target: [...document.querySelectorAll('.btn-filtro')]
+            .find(b => b.textContent.includes('Farmácias'))
+    });
+}

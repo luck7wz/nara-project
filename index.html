@@ -16,15 +16,7 @@
     </header>
     
     <main>
-        <!-- Seção do Mapa com Sobreposição -->
-        <section class="container-mapa">
-            <div class="overlay-start"> 
-                <h1>Cuidar de você<br>é garantir o acesso.</h1>
-                <h2>Encontre um ponto de coleta perto de você!</h2>
-                <button type="button" class="inicio" id="botao-mapa" onclick="iniciarSite()">Procurar</button>
-            </div>
-
-            <div class="filtros-mapa">
+         <div class="filtros-mapa">
                 <button type="button" class="btn-filtro ativo" onclick="filtrarPontos('TODOS', event)">Todos</button>
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('UBS_USF', event)">UBS / USF</button>
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('POLICLINICA', event)">Policlínicas</button>
@@ -33,11 +25,20 @@
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('FARMACIA', event)">Farmácias da Família</button>
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('VACINACAO', event)">Vacinação</button>
             </div>
-
+    
+        <!-- Seção do Mapa com Sobreposição -->
+        <section class="container-mapa">
+            <div class="overlay-start"> 
+                <h1>Cuidar de você<br>é garantir o acesso.</h1>
+                <h2>Encontre um ponto de coleta perto de você!</h2>
+                <button type="button" class="inicio" id="botao-mapa" onclick="iniciarSite()">Procurar</button>
+            </div>
             <!-- Leaflet -->
             <div id="mapa-nara" style="width: 100%; height: 500px;"></div>
+        </section>
+    </main>
 
-            <!-- Info unid -->
+      <!-- Info unid -->
             <div id="card-detalhes-ubs" class="card-detalhes oculta">
                 <button type="button" class="fechar-card" onclick="fecharCard()">&times;</button>
                 <div id="conteudo-ubs">
@@ -55,24 +56,193 @@
 
             <div id="info1" class="conteudo-info ativo">
                 <h3>Quem nós somos?</h3>
-                <p>Texto sobre a instituição ou projeto.</p>
-                <button type="button">Conheça Mais</button>
-            </div>
+                <p>A Nara é a sigla de Núcleo de Apoio, Referência e Assistência. 
 
-            <div id="info2" class="conteudo-info">
-                <h3>Exames</h3>
-                <ul>
-                    <li>Ovos: 3 unidades (em temperatura ambiente)</li>
-                    <li>Açúcar: 1 a 2 xícaras de chá (dependendo de quão doce você prefere)</li>
-                    <li>Gordura: 3 a 4 colheres de sopa de manteiga/margarina ou ½ xícara de chá de óleo</li>
-                    <li>Leite: 1 xícara de chá (cerca de 200 ml a 240 ml)</li>
-                    <li>Farinha de trigo: 2 xícaras de chá</li>
-                    <li>Fermento em pó: 1 colher de sopa (fermento químico para bolo)</li>
-                </ul>
+O projeto busca democratizar o acesso das mulheres a informações sobre unidades básicas de saúde,
+ farmácias populares que oferecem absorventes e medicamentos gratuitos,
+  programas de benefícios e eventos de conscientização...
+</p>
+                <button type="button">Nossa História</button>
             </div>
         </section>
-    </main>
-     
+
+   <div id="info2" class="conteudo-info">
+    <h3>Benefícios e direitos</h3>
+
+        <div id="conteudo-info">
+            <button type="button" class="card-beneficio card-grande" onclick="abrirSaude()">
+                <span class="card-texto">Saúde e bem-estar</span>
+            </button>
+
+            <div class="beneficios-linha">
+                <div class="card-beneficio card-simulado" aria-disabled="true">
+                    <span class="card-texto">Assistência Social</span>
+                </div>
+                <div class="card-beneficio card-simulado" aria-disabled="true">
+                    <span class="card-texto">Segurança e Proteção</span>
+                </div>
+                <div class="card-beneficio card-simulado" aria-disabled="true">
+                    <span class="card-texto">Educação e Formação</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="programa" id="tela-dignidade" hidden>
+            <button type="button" class="btn-seta" onclick="fecharPrograma()" aria-label="Voltar">←</button>
+
+            <div class="programa-layout">
+                <div class="programa-texto">
+                    <h2>Programa Dignidade Menstrual</h2>
+
+                    <h3>O que é?</h3>
+                    <p>O Programa Dignidade Menstrual oferece absorventes higiênicos gratuitos para pessoas que menstruam e atendem aos critérios estabelecidos pelo Governo Federal. A retirada é realizada em farmácias credenciadas no Programa Farmácia Popular.</p>
+
+                    <h3>Quem pode receber?</h3>
+                    <p>Pessoas entre 10 e 49 anos que atendam aos critérios de elegibilidade, incluindo situações de baixa renda, estudantes de baixa renda da rede pública ou pessoas em situação de rua. É necessário verificar os requisitos oficiais do programa.</p>
+
+                    <h3>Como conseguir os absorventes?</h3>
+                    <ol>
+                        <li>Acesse o aplicativo ou site do Meu SUS Digital.</li>
+                        <li>Entre com sua conta Gov.br.</li>
+                        <li>Selecione a opção "Dignidade Menstrual" e depois "Emitir Autorização".</li>
+                        <li>Apresente a autorização e um documento oficial com foto e CPF em uma farmácia credenciada.</li>
+                    </ol>
+
+                    <button type="button" class="btn-localizar" onclick="irParaMapa()">LOCALIZAR PONTOS DE ABSORVENTES</button>
+
+                    <h3>Qual é a quantidade disponível?</h3>
+                    <p>Até 40 absorventes por retirada, para um período de 56 dias.</p>
+
+                    <h3>Não consegue emitir a autorização pela internet?</h3>
+                    <p>Procure uma Unidade Básica de Saúde (UBS) ou um serviço de assistência social, que poderá orientar você sobre como obter o documento.</p>
+
+                    <h3>Acesse o serviço oficial:</h3>
+                    <p><a href="https://www.gov.br/pt-br/servicos/obter-autorizacao-para-retirada-gratuita-de-absorventes-higienicos-em-estabelecimentos-da-farmacia-popular" target="_blank" rel="noopener">Acessar serviço no gov.br</a></p>
+                </div>
+
+                <img src="img/dignidade-menstrual-cartaz.png" alt="Cartaz do Programa Dignidade Menstrual" class="programa-imagem">
+            </div>
+            
+        </section>
+
+        </div>
+        
+    <section class="saude" id="tela-saude" hidden>
+        <button type="button" class="btn-voltar" onclick="voltarBeneficios()">← Voltar</button>
+        <h2 class="beneficios-titulo">Saúde e bem estar</h2>
+
+        <div class="carrossel">
+            <button type="button" class="seta" onclick="moverCarrossel(-1)" aria-label="Anterior">◀</button>
+
+            <div class="carrossel-janela">
+                <div class="carrossel-trilho" id="trilho">
+
+                    <article class="card-programa">
+                        <h3>Programa Dignidade Menstrual</h3>
+                        <img src="img/dignidade-menstrual.png" alt="Programa Dignidade Menstrual">
+                        <p>O programa oferece absorventes gratuitos e promove dignidade menstrual.</p>
+                        <button type="button" class="btn-saiba" onclick="abrirPrograma('tela-dignidade')">Saiba mais</button>
+                    </article>
+
+                    <article class="card-programa">
+                        <h3>Rede Alyne</h3>
+                        <img src="img/rede-alyne.png" alt="Rede Alyne">
+                        <p>Oferece atendimento humanizado às mulheres durante a gravidez, o parto e o pós-parto.</p>
+                        <a href="#" class="btn-saiba">Saiba mais</a>
+                    </article>
+
+                    <article class="card-programa">
+                        <h3>Programa Útero é Vida</h3>
+                        <img src="img/utero-e-vida.png" alt="Programa Útero é Vida">
+                        <p>Amplia a prevenção e o diagnóstico precoce do câncer do colo do útero.</p>
+                        <a href="#" class="btn-saiba">Saiba mais</a>
+                    </article>
+
+                    <!-- adicione mais cards aqui -->
+                </div>
+            </div>
+
+            <button type="button" class="seta" onclick="moverCarrossel(1)" aria-label="Próximo">▶</button>
+        </div>
+
+        
+        <div class="pontos" id="pontos"></div>
+        </section>  
+    </div>           
+    </section>   
+
+    <footer class="rodape">
+        <div class="rodape-topo">
+
+            <!-- Marca -->
+            <div class="rodape-marca">
+                <img src="static/img/logo.png" alt="Nara" class="rodape-logo">
+                <p class="rodape-slogan">Informação, acolhimento e acesso aos direitos das mulheres em um só lugar.</p>
+
+                <div class="rodape-redes">
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+
+            <!-- Colunas de links -->
+            <nav class="rodape-colunas" aria-label="Rodapé">
+                <div class="rodape-coluna">
+                    <h4>Navegação</h4>
+                    <ul>
+                        <li><a href="#">Início</a></li>
+                        <li><a href="#">Mapa</a></li>
+                        <li><a href="#">Nara</a></li>
+                        <li><a href="#">Guia</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h4>Categorias</h4>
+                    <ul>
+                        <li><a href="#">Saúde e Bem-Estar</a></li>
+                        <li><a href="#">Proteção e Segurança</a></li>
+                        <li><a href="#">Assistência Social</a></li>
+                        <li><a href="#">Educação e Formação</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h4>Informações</h4>
+                    <ul>
+                        <li><a href="#">Direitos da mulheres</a></li>
+                        <li><a href="#">Perguntas Frequentes</a></li>
+                        <li><a href="#">Fontes oficiais</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h4>Ajuda</h4>
+                    <ul>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">Acessibilidade</a></li>
+                        <li><a href="#">Privacidade</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <hr class="rodape-linha">
+
+        <div class="rodape-base">
+            <p>© 2026 Gov Rec. Todos os direitos reservados.</p>
+            <div class="rodape-legal">
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Termos de Uso</a>
+                <a href="#">Política de Cookies</a>
+            </div>
+        </div>
+
+    <!-- Ornamento (flor de lótus) no canto inferior direito -->
+    <img src="static/img/lotus.png" alt="" class="rodape-ornamento">
+    </footer>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <script src="static/js/script.js"></script>

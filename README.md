@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="static/img/logo.png" alt="Logo da Nara" width="200">
+  <img src="static/img/logo-readme.png" alt="Logo da Nara" width="200">
 </p>
 
 <h1 align="center">Nara</h1>

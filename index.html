@@ -4,19 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nara</title>
-    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://kit.fontawesome.com/0683246d33.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <header> 
-        <!-- <img src="static/img/logo.png" alt="Logo Nara"> -->
-    </header>
-    
+<header class="cabecalho-nara">
+    <a href="#" class="marca-nara" aria-label="Nara - início">
+        <img src="static/img/logo.png" alt="Logo Nara">
+    </a>
+
+    <nav class="menu-nara" aria-label="Menu principal">
+        <a href="#mapa-nara" class="item-menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 6.5 9 3l6 3 6-3v14.5L15 21l-6-3-6 3z"/>
+                <path d="M9 3v15m6-12v15"/>
+            </svg>
+            <span>Mapa</span>
+        </a>
+
+        <a href="#abas" class="item-menu" data-aba="info1">
+            <img src="static/img/icones/sobre-nara.png" alt="">
+            <span>Sobre</span>
+        </a>
+
+        <a href="#abas" class="item-menu ativo" data-aba="info2">
+            <i class="fa-regular fa-heart" aria-hidden="true"></i>
+            <span>Benefícios</span>
+        </a>
+    </nav>
+
+    <div class="acoes-nara">
+        <button class="botao-notificacao" type="button"
+                aria-label="Notificações">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                <path d="M10 21h4"/>
+            </svg>
+        </button>
+
+        <button class="botao-perfil" type="button" aria-label="Perfil">
+            <img src="static/img/foto-perfil.png" alt="Foto do perfil">
+        </button>
+    </div>
+</header>
+
     <main>
-         <div class="filtros-mapa">
+        <!-- Seção do mapa com sobreposição inicial -->
+        <section class="container-mapa">
+
+            <!-- Filtros (ficam sobre o mapa e rolam junto com ele) -->
+            <div class="filtros-mapa">
                 <button type="button" class="btn-filtro ativo" onclick="filtrarPontos('TODOS', event)">Todos</button>
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('UBS_USF', event)">UBS / USF</button>
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('POLICLINICA', event)">Policlínicas</button>
@@ -25,67 +65,75 @@
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('FARMACIA', event)">Farmácias da Família</button>
                 <button type="button" class="btn-filtro" onclick="filtrarPontos('VACINACAO', event)">Vacinação</button>
             </div>
-    
-        <!-- Seção do Mapa com Sobreposição -->
-        <section class="container-mapa">
-            <div class="overlay-start"> 
-                <h1>Cuidar de você<br>é garantir o acesso.</h1>
-                <h2>Encontre um ponto de coleta perto de você!</h2>
-                <button type="button" class="inicio" id="botao-mapa" onclick="iniciarSite()">Procurar</button>
+
+            <div class="overlay-start">
+                <h1>Há cuidado mais perto<br>do que você imagina.</h1>
+                <h2>Encontre serviços de saúde e apoio à mulher em Recife.</h2>
+                <button type="button" class="inicio" id="botao-mapa" onclick="iniciarSite()">Vamos lá!</button>
             </div>
             <!-- Leaflet -->
-            <div id="mapa-nara" style="width: 100%; height: 500px;"></div>
-        </section>
-    </main>
+            <div id="mapa-nara"></div>
 
-      <!-- Info unid -->
+            <!-- Detalhes da unidade (fica sobre o mapa) -->
             <div id="card-detalhes-ubs" class="card-detalhes oculta">
-                <button type="button" class="fechar-card" onclick="fecharCard()">&times;</button>
+                <button type="button" class="fechar-card" onclick="fecharCard()" aria-label="Fechar">&times;</button>
                 <div id="conteudo-ubs">
                     <p>Selecione um ponto no mapa.</p>
                 </div>
             </div>
         </section>
-            
+
         <!-- Abas Interativas -->
         <section id="abas">  
             <nav class="container-abas" aria-label="Navegação de abas">
                 <button type="button" class="bloco-escolha ativo" data-alvo="info1">Nos conheça</button>
-                <button type="button" class="bloco-escolha" data-alvo="info2">Exames</button>
+                <button type="button" class="bloco-escolha" data-alvo="info2">Benefícios e direitos</button>
             </nav>
 
             <div id="info1" class="conteudo-info ativo">
+                <img class="ilustracao-nara" src="static/img/img-sobre.png" alt="Ilustração de uma mulher usando o celular, com a plataforma Nara ao fundo">
                 <h3>Quem nós somos?</h3>
-                <p>A Nara é a sigla de Núcleo de Apoio, Referência e Assistência. 
-
-O projeto busca democratizar o acesso das mulheres a informações sobre unidades básicas de saúde,
- farmácias populares que oferecem absorventes e medicamentos gratuitos,
-  programas de benefícios e eventos de conscientização...
-</p>
+                <p>A <strong>NARA</strong> significa <strong>N</strong>úcleo de <strong>A</strong>poio, <strong>R</strong>eferência e <strong>A</strong>ssistência.</p>
+                <p>O projeto busca democratizar o acesso das mulheres a informações sobre unidades básicas de saúde, farmácias populares, programas sociais, direitos e eventos de conscientização, facilitando a localização de serviços e o acesso ao apoio necessário.</p>
                 <button type="button">Nossa História</button>
             </div>
-        </section>
 
-   <div id="info2" class="conteudo-info">
+            <div id="info2" class="conteudo-info">
     <h3>Benefícios e direitos</h3>
 
         <div id="conteudo-info">
-            <button type="button" class="card-beneficio card-grande" onclick="abrirSaude()">
-                <span class="card-texto">Saúde e bem-estar</span>
-            </button>
+    <button type="button" class="card-beneficio card-grande" onclick="abrirSaude()">
+        <svg class="icone-card" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M24 41C12 32 6 25 6 17.5 6 12 10 8 15 8c4 0 7 2.2 9 5.5C26 10.2 29 8 33 8c5 0 9 4 9 9.5C42 25 36 32 24 41z"/>
+            <circle cx="32" cy="31" r="8" fill="#fff"/>
+            <path d="M32 26.500v9M27.500 31h9"/>
+        </svg>
+        <span class="card-texto">Saúde e bem-estar</span>
+    </button>
 
-            <div class="beneficios-linha">
-                <div class="card-beneficio card-simulado" aria-disabled="true">
-                    <span class="card-texto">Assistência Social</span>
-                </div>
-                <div class="card-beneficio card-simulado" aria-disabled="true">
-                    <span class="card-texto">Segurança e Proteção</span>
-                </div>
-                <div class="card-beneficio card-simulado" aria-disabled="true">
-                    <span class="card-texto">Educação e Formação</span>
-                </div>
-            </div>
+    <div class="beneficios-linha">
+        <div class="card-beneficio card-simulado" aria-disabled="true">
+            <i class="fa-solid fa-handshake"></i>
+            <span class="card-texto">Assistência Social</span>
         </div>
+        
+        <div class="card-beneficio card-simulado" aria-disabled="true">
+            <svg class="icone-card" viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M24 5l15 5v11c0 10-6.500 17-15 21C15.500 38 9 31 9 21V10z"/>
+                <path d="M17 23l5 5 9-10"/>
+            </svg>
+            <span class="card-texto">Segurança e Proteção</span>
+        </div>
+
+        <div class="card-beneficio card-simulado" aria-disabled="true">
+            <svg class="icone-card" viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M24 12c-4-3-10-4-16-3v27c6-1 12 0 16 3 4-3 10-4 16-3V9c-6-1-12 0-16 3z"/>
+                <path d="M24 12v27"/>
+            </svg>
+            <span class="card-texto">Educação e Formação</span>
+        </div>
+    </div>
+</div>
 
         <section class="programa" id="tela-dignidade" hidden>
             <button type="button" class="btn-seta" onclick="fecharPrograma()" aria-label="Voltar">←</button>
@@ -120,16 +168,14 @@ O projeto busca democratizar o acesso das mulheres a informações sobre unidade
                     <p><a href="https://www.gov.br/pt-br/servicos/obter-autorizacao-para-retirada-gratuita-de-absorventes-higienicos-em-estabelecimentos-da-farmacia-popular" target="_blank" rel="noopener">Acessar serviço no gov.br</a></p>
                 </div>
 
-                <img src="img/dignidade-menstrual-cartaz.png" alt="Cartaz do Programa Dignidade Menstrual" class="programa-imagem">
+                <img src="static/img/dignidade-menstrual-cartaz.png" alt="Cartaz do Programa Dignidade Menstrual" class="programa-imagem">
             </div>
             
         </section>
 
-        </div>
-        
     <section class="saude" id="tela-saude" hidden>
         <button type="button" class="btn-voltar" onclick="voltarBeneficios()">← Voltar</button>
-        <h2 class="beneficios-titulo">Saúde e bem estar</h2>
+        <h2 class="beneficios-titulo">Saúde e bem-estar</h2>
 
         <div class="carrossel">
             <button type="button" class="seta" onclick="moverCarrossel(-1)" aria-label="Anterior">◀</button>
@@ -139,21 +185,21 @@ O projeto busca democratizar o acesso das mulheres a informações sobre unidade
 
                     <article class="card-programa">
                         <h3>Programa Dignidade Menstrual</h3>
-                        <img src="img/dignidade-menstrual.png" alt="Programa Dignidade Menstrual">
+                        <img src="static/img/dignidade-menstrual-cartaz.png" alt="Programa Dignidade Menstrual">
                         <p>O programa oferece absorventes gratuitos e promove dignidade menstrual.</p>
                         <button type="button" class="btn-saiba" onclick="abrirPrograma('tela-dignidade')">Saiba mais</button>
                     </article>
 
                     <article class="card-programa">
                         <h3>Rede Alyne</h3>
-                        <img src="img/rede-alyne.png" alt="Rede Alyne">
+                        <img src="static/img/rede-alyne.png" alt="Rede Alyne">
                         <p>Oferece atendimento humanizado às mulheres durante a gravidez, o parto e o pós-parto.</p>
                         <a href="#" class="btn-saiba">Saiba mais</a>
                     </article>
 
                     <article class="card-programa">
                         <h3>Programa Útero é Vida</h3>
-                        <img src="img/utero-e-vida.png" alt="Programa Útero é Vida">
+                        <img src="static/img/utero-e-vida.png" alt="Programa Útero é Vida">
                         <p>Amplia a prevenção e o diagnóstico precoce do câncer do colo do útero.</p>
                         <a href="#" class="btn-saiba">Saiba mais</a>
                     </article>
@@ -167,9 +213,10 @@ O projeto busca democratizar o acesso das mulheres a informações sobre unidade
 
         
         <div class="pontos" id="pontos"></div>
-        </section>  
-    </div>           
-    </section>   
+        </section>
+            </div>
+        </section>
+    </main>
 
     <footer class="rodape">
         <div class="rodape-topo">
@@ -180,9 +227,9 @@ O projeto busca democratizar o acesso das mulheres a informações sobre unidade
                 <p class="rodape-slogan">Informação, acolhimento e acesso aos direitos das mulheres em um só lugar.</p>
 
                 <div class="rodape-redes">
-                    <a href="#" aria-label="Twitter">🐦</a>
-                    <a href="#" aria-label="Facebook">f</a>
-                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </div>
 
@@ -211,7 +258,7 @@ O projeto busca democratizar o acesso das mulheres a informações sobre unidade
                 <div class="rodape-coluna">
                     <h4>Informações</h4>
                     <ul>
-                        <li><a href="#">Direitos da mulheres</a></li>
+                        <li><a href="#">Direitos das mulheres</a></li>
                         <li><a href="#">Perguntas Frequentes</a></li>
                         <li><a href="#">Fontes oficiais</a></li>
                     </ul>
@@ -240,11 +287,11 @@ O projeto busca democratizar o acesso das mulheres a informações sobre unidade
         </div>
 
     <!-- Ornamento (flor de lótus) no canto inferior direito -->
-    <img src="static/img/lotus.png" alt="" class="rodape-ornamento">
+    <img src="static/img/footer.png" alt="" class="rodape-ornamento">
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="static/js/script.js"></script>
 </body>
 </html>

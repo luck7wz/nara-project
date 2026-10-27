@@ -63,7 +63,7 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-Abra **Endereço do servidor: http://000.0.0.0:0000 ** no navegador.
+Abra **Endereço do servidor: http://000.0.0.0:0000** no navegador.
 
 > Acesse sempre pelo endereço do servidor. Abrir o `index.html` direto no navegador não carrega o mapa nem as fontes.
 

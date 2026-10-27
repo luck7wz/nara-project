@@ -83,9 +83,6 @@ Abra **http://127.0.0.1:8000** no navegador.
 - Fontes locais (Coolvetica, Meriva, St Camino Frontera, Helvetica): consulte as respectivas licenças antes de redistribuir.
 - Dados das unidades de saúde: _informar a fonte (ex.: dados abertos da prefeitura)_.
 
-## Uso de IA
-
-Usamos o Claude (Anthropic) como assistente de desenvolvimento front-end: organização do CSS, ajustes de interface com base no protótipo e correções de HTML e JavaScript. A concepção do projeto, os dados e as decisões de produto são da equipe.
 
 ## Equipe
 

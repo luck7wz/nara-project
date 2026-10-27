@@ -1,26 +1,447 @@
+/* ==========================================================================
+   NARA — FOLHA DE ESTILOS
+
+   ÍNDICE
+    1. Fontes
+    2. Variáveis
+    3. Reset e base
+    4. Cabeçalho
+    5. Tela inicial e mapa
+    6. Filtros do mapa
+    7. Ajustes do Leaflet
+    8. Cartão de detalhes da unidade
+    9. Abas e "Nos conheça"
+   10. Cartões de benefícios
+   11. Programa Dignidade Menstrual
+   12. Saúde e carrossel
+   13. Rodapé
+   14. Ícones das unidades
+   15. Responsividade (768px e 480px)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. FONTES
+   - Outfit, Bebas Neue e Alata vêm do Google Fonts.
+   - As demais ficam em static/fonts/ (arquivos com estes nomes).
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Bebas+Neue&family=Alata&display=swap");
+
+@font-face {
+    font-family: "Coolvetica";
+    src: url("../fonts/coolvetica.ttf") format("opentype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Meriva";
+    src: url("../fonts/meriva.ttf") format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "St Camino Frontera";
+    src: url("../fonts/st-camino-frontera.ttf") format("opentype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helvetica Nara";
+    src: local("Helvetica"), local("Helvetica Neue"),
+         url("../fonts/helvetica.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helvetica Nara";
+    src: local("Helvetica Bold"), local("Helvetica-Bold"),
+         url("../fonts/helvetica-bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+}
+
+
+/* ==========================================================================
+   2. VARIÁVEIS
+   ========================================================================== */
+
+:root {
+    /* Fontes */
+    --fonte-titulo:   "Outfit", Arial, sans-serif;                    /* títulos e CTA */
+    --fonte-topico:   "Coolvetica", "Outfit", Arial, sans-serif;      /* tópicos do programa */
+    --fonte-texto:    "Helvetica Nara", Helvetica, Arial, sans-serif; /* texto corrido */
+    --fonte-rodape:   "Meriva", "Outfit", Arial, sans-serif;          /* tópicos do rodapé */
+    --fonte-destaque: "Bebas Neue", Impact, sans-serif;               /* subtítulo do início */
+    --fonte-abas:     "St Camino Frontera", "Outfit", sans-serif;     /* abas */
+    --fonte-botao:    "Alata", "Outfit", Arial, sans-serif;           /* botões Localizar / Saiba mais */
+
+    /* Cores */
+    --cor-primaria: #086B5C;
+    --cor-primaria-hover: #065548;
+    --cor-vinho: #832D51;
+    --cor-bordo: #511326;
+    --cor-verde-claro: #9ED6B6;
+    --cor-texto: #212228;
+    --cor-texto-secundario: #666666;
+    --cor-fundo: #FFFFFF;
+    --cor-superficie: #FFFFFF;
+    --cor-borda: #D1D1D1;
+
+    /* Formas e sombras */
+    --raio-pequeno: 8px;
+    --raio-medio: 14px;
+    --raio-grande: 20px;
+    --sombra-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+    /* Medidas */
+    --altura-abas: clamp(44px, 5.3vw, 80px);
+
+    /* Ícones dos marcadores (mesmos arquivos de scripts/mapa.py) */
+    --icone-hospital:    url("../img/icones/hospital.png");
+    --icone-ubs:         url("../img/icones/ubs.png");
+    --icone-usf:         url("../img/icones/usf.png");
+    --icone-farmacia:    url("../img/icones/farmacia.png");
+    --icone-policlinica: url("../img/icones/policlinica.png");
+    --icone-maternidade: url("../img/icones/maternidade.png");
+    --icone-vacina:      url("../img/icones/vacina.png");
+}
+
+
+/* ==========================================================================
+   3. RESET E BASE
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--fonte-texto);
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+    line-height: 1.6;
+}
+
+main {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--cor-verde-claro);
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   4. CABEÇALHO
+   O <header> é só um contêiner fixo; a barra branca é .cabecalho-nara.
+   ========================================================================== */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000000;
+}
+
+.cabecalho-nara {
+    position: fixed;
+    top: 12px;
+    left: 2%;
+    z-index: 1000;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
+    width: 96%;
+    height: 64px;
+    padding: 0 20px;
+
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+
+.marca-nara {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+}
+
+.marca-nara img {
+    display: block;
+    width: 140px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Menu central */
+
+.menu-nara {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 16px;
+    height: 100%;
+}
+
+.item-menu {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+
+    min-width: 64px;
+    padding: 0 8px;
+
+    color: #26252B;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+
+    transition: color 0.2s ease;
+}
+
+.item-menu svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.item-menu img {
+    display: block;
+    width: 26px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.item-menu:hover,
+.item-menu.ativo {
+    color: var(--cor-vinho);
+}
+
+/* Linha inferior do item selecionado */
+
+.item-menu.ativo::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+    background: var(--cor-vinho);
+    border-radius: 8px 8px 0 0;
+}
+
+/* Notificações e perfil à direita */
+
+.acoes-nara {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 16px;
+}
+
+.botao-notificacao,
+.botao-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.botao-notificacao svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #26252B;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.botao-perfil img {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ==========================================================================
+   5. TELA INICIAL E MAPA
+   ========================================================================== */
+
+.container-mapa {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    width: 100%;
+    height: min(100vh, 58vw);
+    min-height: 520px;
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#mapa-nara {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    border: none;
+    border-radius: 0;
+}
+
+
 .overlay-start {
-    position: absolute;      
-    inset: 0;                
-    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    z-index: 999999;
-    transition: opacity 0.8s ease, visibility 0.8s ease, backdrop-filter 0.8s ease;
+
+    padding: clamp(96px, 9vw, 130px) 24px var(--altura-abas);
+    text-align: center;
+
+    background: rgba(18, 18, 18, 0.5);
+
+    transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
-.container-mapa {
-    position: relative;   
-    overflow: hidden;     
+.overlay-start h1 {
+    max-width: 80%;
+    margin: 0 0 clamp(14px, 2.4vw, 36px);
+
+    color: var(--cor-superficie);
+    font-family: var(--fonte-titulo);
+    font-size: clamp(2.1rem, 6.6vw, 6.4rem);
+    font-weight: 500;
+    line-height: 1.1;
 }
-.filtros-mapa {
+
+.overlay-start h2 {
+    max-width: max(34vw, 280px);
+    margin: 0 0 clamp(20px, 3.6vw, 56px);
+
+    color: var(--cor-superficie);
+    font-family: var(--fonte-destaque);
+    font-size: clamp(0.9rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+
+.inicio {
+    padding: 0.5em 2.6em;
+
+    color: #E6F4EC;
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 2px solid var(--cor-superficie);
+    border-radius: 999px;
+
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1rem, 2.1vw, 2rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.inicio:hover {
+    color: var(--cor-primaria);
+    background: var(--cor-superficie);
+    transform: scale(1.04);
+}
+
+.site-ativo .overlay-start {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+
+/* ==========================================================================
+   6. FILTROS DO MAPA
+   ========================================================================== */
+
+.filtros-mapa {
+    position: fixed;
+    top: 90px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin: 0;
+    padding: 10px 16px;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .site-ativo .filtros-mapa {
@@ -28,66 +449,117 @@
     visibility: visible;
     pointer-events: auto;
 }
-.inicio {
-    padding: 4px 8px;
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: white;
-    background-color: #2563eb;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.2s, transform 0.2s;
+
+.btn-filtro {
+    padding: 6px 14px;
+
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+
+    border: 1px solid var(--cor-borda);
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
 }
 
-.inicio:hover {
-    background-color: #1d4ed8;
-    transform: scale(1.05);
+.btn-filtro:hover {
+    color: var(--cor-primaria);
+    background: #E6F2EE;
+    border-color: var(--cor-primaria);
 }
 
-.site-ativo .overlay-start {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-    visibility: hidden;
-    pointer-events: none;
+.btn-filtro.ativo {
+    color: var(--cor-superficie);
+    background: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+    box-shadow: 0 2px 6px rgba(8, 107, 92, 0.25);
 }
 
-.conteudo-info {
-    display: none;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    background-color: #f9f9f9;
+
+/* ==========================================================================
+   7. AJUSTES DO LEAFLET
+   ========================================================================== */
+
+/* Mapa em cinza na tela inicial (só os tiles: os ponteiros mantêm a cor) */
+
+.leaflet-tile-pane,
+.leaflet-marker-pane {
+    transition: filter 0.8s ease, opacity 0.8s ease;
 }
 
-.conteudo-info.ativo {
-    display: block;
+body:not(.site-ativo) .leaflet-tile-pane {
+    filter: grayscale(1);
 }
 
-.bloco-escolha.ativo {
-    background-color: #007BFF;
-    color: white;
-    border-color: #0056b3;
+/* Ponteiros mais discretos na tela inicial, para não competir com o título */
+
+body:not(.site-ativo) .leaflet-marker-pane {
+    opacity: 0.45;
 }
 
-#abas {
-    margin-top: 20px;
+/* A barra de abas cobre a base do mapa: sobe a atribuição do OpenStreetMap */
+
+.leaflet-bottom {
+    bottom: var(--altura-abas);
 }
+
+/* Zoom e painel de rota ficam abaixo do cabeçalho e dos filtros */
+
+.leaflet-top.leaflet-left {
+    top: 140px;
+}
+
+/* Aviso quando as unidades não carregam (criado pelo script.js) */
+
+.aviso-mapa {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--altura-abas) + 20px);
+    z-index: 1200;
+
+    max-width: min(640px, 92%);
+    padding: 12px 18px;
+    transform: translateX(-50%);
+
+    color: var(--cor-bordo);
+    background: #F8E9EF;
+
+    border: 1px solid #D9A9BC;
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-card);
+
+    font-size: 14px;
+    text-align: center;
+}
+
+
+/* ==========================================================================
+   8. CARTÃO DE DETALHES DA UNIDADE
+   ========================================================================== */
 
 .card-detalhes {
     position: absolute;
-    bottom: 20px;
     right: 20px;
-    width: 320px;
-    max-height: 80%;
-    overflow-y: auto;
-    background: #ffffff;
-    padding: 20px 16px 16px 16px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    bottom: calc(var(--altura-abas) + 20px);
     z-index: 1100;
+
+    width: 320px;
+    max-width: calc(100% - 24px);
+    max-height: calc(100% - var(--altura-abas) - 150px);
+    overflow-y: auto;
+
+    padding: 20px 16px 16px;
+
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-card);
+
     font-size: 14px;
 }
 
@@ -99,123 +571,849 @@
     position: absolute;
     top: 8px;
     right: 10px;
-    background: none;
+
+    color: var(--cor-texto-secundario);
+    background: transparent;
     border: none;
+
     font-size: 20px;
-    cursor: pointer;
-    color: #666;
 }
 
 .fechar-card:hover {
-    color: #000;
+    color: var(--cor-vinho);
 }
 
 .badge-tipo {
     display: inline-block;
-    background-color: #e3f2fd;
-    color: #1976d2;
+    margin-bottom: 8px;
     padding: 3px 8px;
+
+    color: var(--cor-primaria);
+    background: #E6F2EE;
     border-radius: 4px;
+
     font-size: 11px;
     font-weight: bold;
-    margin-bottom: 8px;
 }
 
-/* Estilo principal do botão 'Como chegar' */
+/* Botão "Como chegar" */
+
 .btn-rota {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+
     width: 100%;
     margin-top: 14px;
     padding: 11px 16px;
-    background-color: #2563eb;
-    color: #ffffff;
+
+    color: var(--cor-superficie);
+    background: var(--cor-primaria);
+
+    border: none;
+    border-radius: var(--raio-pequeno);
+    box-shadow: 0 2px 6px rgba(8, 107, 92, 0.25);
+
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.2px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+
     transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-/* Efeito ao passar o cursor por cima */
 .btn-rota:hover {
-    background-color: #1d4ed8;
+    background: var(--cor-primaria-hover);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 4px 12px rgba(8, 107, 92, 0.3);
 }
 
-/* Efeito ao pressionar o botão */
 .btn-rota:active {
-    background-color: #1e40af;
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 2px 4px rgba(8, 107, 92, 0.2);
 }
 
-.filtros-mapa {
-    display: flex;
-    gap: 8px;
-    margin: 10px 0;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.btn-filtro {
-    background-color: #f3f4f6;
-    color: #374151;
-    border: 1px solid #d1d5db;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-filtro:hover {
-    background-color: #e5e7eb;
-}
-
-.btn-filtro.ativo {
-    background-color: #2563eb;
-    color: #ffffff;
-    border-color: #2563eb;
-    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
-}
+/* Botão "Encerrar trajeto" */
 
 .btn-cancelar {
     display: block;
     width: 100%;
     margin-top: 8px;
     padding: 8px 12px;
-    background-color: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fca5a5;
+
+    color: var(--cor-vinho);
+    background: #F8E9EF;
+
+    border: 1px solid #D9A9BC;
     border-radius: 6px;
+
     font-size: 13px;
     font-weight: 600;
-    cursor: pointer;
     text-align: center;
+
     transition: background-color 0.2s ease;
 }
 
 .btn-cancelar:hover {
-    background-color: #fecaca;
+    background: #F0D5E0;
+}
+
+
+/* ==========================================================================
+   9. ABAS E "NOS CONHEÇA"
+   As abas ficam coladas na base do mapa.
+   ========================================================================== */
+
+#abas {
+    position: relative;
+    z-index: 20;
+    margin: calc(var(--altura-abas) * -1) 0 0;
+    padding: 0;
+    background: transparent;
+}
+
+.container-abas {
+    display: flex;
+    gap: 0;
+    height: var(--altura-abas);
+}
+
+.bloco-escolha {
+    flex: 1;
+    padding: 0 12px;
+
+    color: var(--cor-superficie);
+    background: rgba(30, 28, 30, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    border: none;
+    border-radius: 0;
+
+    font-family: var(--fonte-abas);
+    font-size: clamp(0.85rem, 2vw, 1.9rem);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+    text-transform: uppercase;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bloco-escolha:hover {
+    background: rgba(30, 28, 30, 0.4);
+}
+
+.bloco-escolha.ativo,
+.bloco-escolha.ativo:hover {
+    color: var(--cor-primaria);
+    background: var(--cor-superficie);
+    text-shadow: none;
+}
+
+.conteudo-info {
+    display: none;
+
+    padding: clamp(24px, 4.5vw, 70px) 7%;
+
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+
+    border: none;
+    border-radius: 0;
+}
+
+.conteudo-info.ativo {
+    display: block;
+}
+
+/* Título e texto da aba (filhos diretos, para não afetar o resto) */
+
+.conteudo-info > h3 {
+    margin: 0 0 0.45em;
+
+    color: var(--cor-primaria);
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.7rem, 3.7vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.conteudo-info > p {
+    max-width: 46%;
+    margin: 0 0 1.1em;
+    font-size: clamp(0.95rem, 1.7vw, 1.6rem);
+    line-height: 1.65;
+}
+
+/* Ilustração à direita (a imagem vem antes do texto no HTML) */
+
+.ilustracao-nara {
+    float: right;
+    width: 46%;
+    max-width: 620px;
+    height: auto;
+    margin: 0 0 0 4%;
+    mix-blend-mode: multiply;   /* o fundo off-white da imagem some no branco */
+}
+
+/* Botão "Nossa História" */
+
+#info1 button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+
+    margin-top: 0.4em;
+    padding: 0.55em 1.6em;
+
+    color: var(--cor-vinho);
+    background: var(--cor-superficie);
+
+    border: 2px solid var(--cor-vinho);
+    border-radius: 10px;
+
+    font-size: clamp(0.95rem, 1.9vw, 1.8rem);
+    font-weight: 500;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#info1 button::after {
+    content: "\2197";
+}
+
+#info1 button:hover {
+    color: var(--cor-superficie);
+    background: var(--cor-vinho);
+}
+
+#info1::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+/* ==========================================================================
+   10. CARTÕES DE BENEFÍCIOS
+   ========================================================================== */
+
+#conteudo-info {
+    width: 100%;
+}
+
+.card-beneficio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 1vw, 14px);
+
+    min-height: clamp(104px, 11vw, 170px);
+    padding: 16px 12px;
+
+    color: var(--cor-primaria);
+    background: var(--cor-superficie);
+
+    border: 2px solid var(--cor-primaria);
+    border-radius: 16px;
+    box-shadow: none;
+
+    text-align: center;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-beneficio:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-card);
+}
+
+.card-grande {
+    width: 100%;
+    min-height: clamp(112px, 13vw, 210px);
+    margin-bottom: clamp(12px, 1.5vw, 20px);
+}
+
+/* Cartões ainda sem ação */
+
+.card-simulado {
+    cursor: default;
+}
+
+.card-simulado:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.icone-card {
+    width: clamp(40px, 3.8vw, 60px);
+    height: auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.card-grande .icone-card {
+    width: clamp(52px, 5vw, 80px);
+}
+
+.card-texto {
+    font-size: clamp(0.68rem, 1.05vw, 1rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.card-grande .card-texto {
+    font-size: clamp(0.8rem, 1.3vw, 1.25rem);
+}
+
+/* Três cartões lado a lado, inclusive no celular (como no protótipo) */
+
+.beneficios-linha {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(10px, 1.5vw, 20px);
+}
+
+
+/* ==========================================================================
+   11. PROGRAMA DIGNIDADE MENSTRUAL
+   ========================================================================== */
+
+.programa {
+    padding: 32px 24px;
+    background: var(--cor-superficie);
+}
+
+.programa-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: start;
+    gap: 32px;
+}
+
+.programa-texto h2 {
+    color: var(--cor-primaria);
+    font-family: var(--fonte-titulo);
+}
+
+.programa-texto h3 {
+    color: var(--cor-primaria);
+    font-family: var(--fonte-topico);
+}
+
+.programa-imagem {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--raio-medio);
+}
+
+.btn-localizar {
+    padding: 12px 20px;
+
+    color: var(--cor-superficie);
+    background: var(--cor-primaria);
+
+    border: none;
+    border-radius: 24px;
+
+    font-family: var(--fonte-botao);
+    font-weight: 700;
+}
+
+.btn-localizar:hover {
+    background: var(--cor-primaria-hover);
+}
+
+.btn-seta,
+.btn-voltar {
+    padding: 8px 14px;
+
+    color: var(--cor-superficie);
+    background: var(--cor-vinho);
+
+    border: none;
+    border-radius: var(--raio-pequeno);
+}
+
+
+/* ==========================================================================
+   12. SAÚDE E CARROSSEL
+   ========================================================================== */
+
+.saude {
+    padding: 32px 24px;
+    background: var(--cor-fundo);
+}
+
+.beneficios-titulo {
+    color: var(--cor-primaria);
+    font-family: var(--fonte-titulo);
+}
+
+.carrossel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.carrossel-janela {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* O gap de 20px é usado pelo script.js para calcular o passo do carrossel */
+
+.carrossel-trilho {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.3s ease;
 }
 
 .card-programa {
-    flex: 0 0 calc((100% - 40px) / 3); /* 3 por vez, com 2 gaps de 20px */
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-    padding: 20px 16px;
-    text-align: center;
+    flex: 0 0 calc((100% - 40px) / 3);
+
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 14px;
+
+    padding: 20px 16px;
+
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+
+    border: 1px solid rgba(8, 107, 92, 0.12);
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-card);
+
+    text-align: center;
+}
+
+.card-programa h3 {
+    color: var(--cor-primaria);
+    font-family: var(--fonte-titulo);
+}
+
+.card-programa img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.btn-saiba {
+    display: inline-block;
+    padding: 9px 18px;
+
+    color: var(--cor-superficie);
+    background: var(--cor-primaria);
+
+    border: none;
+    border-radius: 24px;
+
+    font-family: var(--fonte-botao);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-saiba:hover {
+    background: var(--cor-primaria-hover);
+}
+
+.seta {
+    padding: 10px;
+
+    color: var(--cor-superficie);
+    background: var(--cor-primaria);
+
+    border: none;
+    border-radius: 50%;
+}
+
+/* Bolinhas de paginação (criadas pelo script.js) */
+
+.pontos {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.ponto {
+    width: 9px;
+    height: 9px;
+    background: #C8C5C7;
+    border-radius: 50%;
+}
+
+.ponto.ativo {
+    background: var(--cor-vinho);
+}
+
+
+/* ==========================================================================
+   13. RODAPÉ
+   ========================================================================== */
+
+.rodape {
+    position: relative;
+    overflow: hidden;
+
+    padding: clamp(28px, 4vw, 60px) 7% 0;
+
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+    border-top: none;
+}
+
+.rodape-topo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.3fr);
+    gap: clamp(24px, 4vw, 64px);
+}
+
+.rodape-logo {
+    display: block;
+    width: clamp(110px, 14vw, 210px);
+    margin-bottom: 0.8em;
+    object-fit: contain;
+}
+
+.rodape-slogan {
+    max-width: 20em;
+    margin: 0 0 1em;
+
+    color: var(--cor-texto);
+    font-size: clamp(0.75rem, 1.1vw, 1.05rem);
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.rodape-redes {
+    display: flex;
+    gap: 12px;
+}
+
+.rodape-redes a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+}
+
+.rodape-colunas {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.rodape-coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.rodape-coluna h4 {
+    margin: 0 0 0.5em;
+
+    color: var(--cor-vinho);
+    font-family: var(--fonte-rodape);
+    font-size: clamp(0.7rem, 1.05vw, 1rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.rodape-coluna ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rodape-coluna a {
+    color: var(--cor-texto);
+    font-size: clamp(0.7rem, 1vw, 0.95rem);
+    text-decoration: none;
+}
+
+.rodape-coluna a:hover,
+.rodape-legal a:hover {
+    color: var(--cor-primaria);
+}
+
+.rodape-linha {
+    margin: clamp(20px, 3vw, 44px) 0 clamp(10px, 1.4vw, 20px);
+    border: none;
+    border-top: 1px solid var(--cor-borda);
+}
+
+.rodape-base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+
+    color: var(--cor-texto);
+    font-size: clamp(0.65rem, 0.9vw, 0.85rem);
+}
+
+.rodape-base p {
+    margin: 0;
+}
+
+.rodape-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(12px, 2vw, 28px);
+}
+
+.rodape-legal a {
+    color: var(--cor-texto);
+    text-decoration: none;
+}
+
+/* Flor de lótus no canto inferior direito */
+
+.rodape-ornamento {
+    display: block;
+    width: clamp(150px, 25vw, 360px);
+    margin: clamp(8px, 2vw, 28px) 0 0 auto;
+}
+
+
+/* ==========================================================================
+   14. ÍCONES DAS UNIDADES
+   Mostrados nos botões de filtro (o botão "Todos" fica sem ícone).
+   Também podem ser usados em qualquer lugar:
+   <span class="icone-unidade icone-ubs"></span>
+   ========================================================================== */
+
+.btn-filtro[onclick*="UBS_USF"]         { --icone-filtro: var(--icone-ubs); }
+.btn-filtro[onclick*="POLICLINICA"]     { --icone-filtro: var(--icone-policlinica); }
+.btn-filtro[onclick*="MATERNIDADE"]     { --icone-filtro: var(--icone-maternidade); }
+.btn-filtro[onclick*="HOSPITAL_MULHER"] { --icone-filtro: var(--icone-hospital); }
+.btn-filtro[onclick*="FARMACIA"]        { --icone-filtro: var(--icone-farmacia); }
+.btn-filtro[onclick*="VACINACAO"]       { --icone-filtro: var(--icone-vacina); }
+
+.btn-filtro[onclick*="UBS_USF"],
+.btn-filtro[onclick*="POLICLINICA"],
+.btn-filtro[onclick*="MATERNIDADE"],
+.btn-filtro[onclick*="HOSPITAL_MULHER"],
+.btn-filtro[onclick*="FARMACIA"],
+.btn-filtro[onclick*="VACINACAO"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.icone-unidade,
+.btn-filtro[onclick*="UBS_USF"]::before,
+.btn-filtro[onclick*="POLICLINICA"]::before,
+.btn-filtro[onclick*="MATERNIDADE"]::before,
+.btn-filtro[onclick*="HOSPITAL_MULHER"]::before,
+.btn-filtro[onclick*="FARMACIA"]::before,
+.btn-filtro[onclick*="VACINACAO"]::before {
+    content: "";
+    display: inline-block;
+    flex: none;
+
+    width: 14px;
+    height: 20px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.btn-filtro::before {
+    background-image: var(--icone-filtro);
+}
+
+.icone-hospital    { background-image: var(--icone-hospital); }
+.icone-ubs         { background-image: var(--icone-ubs); }
+.icone-usf         { background-image: var(--icone-usf); }
+.icone-farmacia    { background-image: var(--icone-farmacia); }
+.icone-policlinica { background-image: var(--icone-policlinica); }
+.icone-maternidade { background-image: var(--icone-maternidade); }
+.icone-vacina      { background-image: var(--icone-vacina); }
+
+
+/* ==========================================================================
+   15. RESPONSIVIDADE
+   ========================================================================== */
+
+/* ----- Tablets e celulares (até 768px) ----- */
+
+@media (max-width: 768px) {
+
+    /* Cabeçalho */
+    .cabecalho-nara {
+        top: 8px;
+        left: 3%;
+        grid-template-columns: auto 1fr auto;
+        width: 94%;
+        height: 56px;
+        padding: 0 10px;
+        border-radius: 10px;
+    }
+
+    .marca-nara img {
+        width: 84px;
+    }
+
+    .menu-nara {
+        gap: 2px;
+    }
+
+    .item-menu {
+        min-width: 44px;
+        padding: 0 3px;
+        gap: 1px;
+        font-size: 11px;
+    }
+
+    .item-menu svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .item-menu img {
+        width: 22px;
+        height: 18px;
+    }
+
+    .acoes-nara {
+        gap: 8px;
+    }
+
+    .botao-notificacao svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .botao-perfil img {
+        width: 34px;
+        height: 34px;
+    }
+
+    /* Tela inicial e mapa */
+    .container-mapa {
+        height: 100vh;
+        min-height: 520px;
+    }
+
+    .overlay-start h1,
+    .overlay-start h2 {
+        max-width: 100%;
+    }
+
+    .leaflet-top.leaflet-left {
+        top: 175px;
+    }
+
+    /* Filtros */
+    .filtros-mapa {
+        top: 76px;
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .btn-filtro {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .btn-filtro[onclick]::before,
+    .icone-unidade {
+        width: 11px;
+        height: 16px;
+    }
+
+    /* Abas e "Nos conheça" */
+    .conteudo-info {
+        padding: 24px 6%;
+    }
+
+    .conteudo-info > p {
+        max-width: 100%;
+    }
+
+    .ilustracao-nara {
+        display: block;
+        float: none;
+        width: 80%;
+        margin: 0 auto 20px;
+    }
+
+    /* Programa e carrossel */
+    .programa-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .card-programa {
+        flex-basis: 100%;
+    }
+
+    .carrossel {
+        gap: 8px;
+    }
+
+    /* Rodapé */
+    .rodape {
+        padding: 28px 6% 0;
+    }
+
+    .rodape-topo {
+        grid-template-columns: 1fr;
+    }
+
+    .rodape-colunas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rodape-coluna h4,
+    .rodape-coluna a {
+        font-size: 0.8rem;
+    }
+}
+
+/* ----- Celulares pequenos (até 480px) ----- */
+
+@media (max-width: 480px) {
+
+    .overlay-start {
+        padding: 96px 16px var(--altura-abas);
+    }
+
+    .overlay-start h1 {
+        font-size: 2rem;
+    }
+
+    .overlay-start h2 {
+        font-size: 0.9rem;
+    }
+
+    .card-detalhes {
+        right: 12px;
+        bottom: calc(var(--altura-abas) + 12px);
+        width: 300px;
+    }
+
+    .card-beneficio {
+        padding: 12px 6px;
+    }
 }

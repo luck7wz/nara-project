@@ -244,12 +244,25 @@ const pontos = document.getElementById('pontos');
 let indice = 0;
 const CARDS_VISIVEIS = 3; // no celular vira 1 (veja abaixo)
 
+// Leva a tela até o topo da área de abas (abaixo do cabeçalho fixo).
+// Antes usava scrollTo(top: 0), que subia até o mapa, no começo da página.
+function rolarParaAbas() {
+    const secao = document.getElementById('abas');
+    if (secao) secao.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Links de teste com href="#" não devem mandar a página para o topo
+document.addEventListener('click', (ev) => {
+    const link = ev.target.closest('a[href="#"]');
+    if (link) ev.preventDefault();
+});
+
 function abrirSaude() {
     telaBeneficios.hidden = true;
     telaSaude.hidden = false;
     indice = 0;
     atualizarCarrossel();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    rolarParaAbas();
 }
 
 function voltarBeneficios() {
@@ -292,7 +305,7 @@ function abrirPrograma(idTela) {
 
     carrossel.hidden = true;
     tela.hidden = false;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    rolarParaAbas();
 }
 
 function fecharPrograma() {
@@ -312,3 +325,86 @@ function irParaMapa() {
             .find(b => b.textContent.includes('Farmácias'))
     });
 }
+
+
+// Menu do cabeçalho: troca o item ativo, desliza a linha e abre a aba certa
+(function () {
+    const menu = document.querySelector('.menu-nara');
+    if (!menu) return;
+
+    const itens = [...menu.querySelectorAll('.item-menu')];
+    const indicador = document.createElement('span');
+    indicador.className = 'menu-indicador';
+    indicador.setAttribute('aria-hidden', 'true');
+    menu.appendChild(indicador);
+
+    function mover(item, animar) {
+        if (!item) return;
+        if (!animar) indicador.style.transition = 'none';
+
+        indicador.style.width = item.offsetWidth + 'px';
+        indicador.style.transform = 'translateX(' + item.offsetLeft + 'px)';
+
+        if (!animar) {
+            void indicador.offsetWidth;          // aplica sem animação
+            indicador.style.transition = '';
+        }
+    }
+
+    function ativar(item) {
+        itens.forEach(i => {
+            i.classList.toggle('ativo', i === item);
+            if (i === item) i.setAttribute('aria-current', 'page');
+            else i.removeAttribute('aria-current');
+        });
+        mover(item, true);
+    }
+
+    function itemAtivo() {
+        return menu.querySelector('.item-menu.ativo') || itens[0];
+    }
+
+    // Abre uma aba ("info1" = Nos conheça, "info2" = Benefícios e direitos)
+    function abrirAba(idAba) {
+        const botao = document.querySelector('.bloco-escolha[data-alvo="' + idAba + '"]');
+        if (botao) botao.click();
+
+        // Volta para a tela principal de benefícios (sai do carrossel e do programa)
+        if (idAba === 'info2') {
+            document.querySelectorAll('.programa').forEach(p => p.hidden = true);
+            const saude = document.getElementById('tela-saude');
+            const beneficios = document.getElementById('conteudo-info');
+            if (saude) saude.hidden = true;
+            if (beneficios) beneficios.hidden = false;
+        }
+
+        const secao = document.getElementById('abas');
+        if (secao) secao.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    
+    itens.forEach(item => {
+        item.addEventListener('click', ev => {
+            ativar(item);
+            if (item.dataset.aba) {
+                ev.preventDefault();
+                abrirAba(item.dataset.aba);
+            }
+        });
+    });
+
+
+    document.querySelectorAll('.bloco-escolha').forEach(botao => {
+        botao.addEventListener('click', () => {
+            const item = itens.find(i => i.dataset.aba === botao.dataset.alvo);
+            if (item && item !== itemAtivo()) ativar(item);
+        });
+    });
+
+    mover(itemAtivo(), false);
+    window.addEventListener('resize', () => mover(itemAtivo(), false));
+    window.addEventListener('load', () => mover(itemAtivo(), false));
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => mover(itemAtivo(), false));
+    }
+})();

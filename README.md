@@ -1,8 +1,12 @@
-# Nara
+<p align="center">
+  <img src="static/img/logo.png" alt="Logo da Nara" width="200">
+</p>
+
+<h1 align="center">Nara</h1>
+
+<p align="center"><b>Há cuidado mais perto do que você imagina.</b></p>
 
 Projeto de hackathon que democratiza o acesso das mulheres à saúde: encontre unidades de saúde perto de você, conheça benefícios e direitos, e acesse informações sobre dignidade menstrual.
-
-> **Há cuidado mais perto do que você imagina.**
 
 ## Funcionalidades
 
@@ -78,6 +82,10 @@ Abra **http://127.0.0.1:8000** no navegador.
 - [Font Awesome](https://fontawesome.com/) e [Google Fonts](https://fonts.google.com/)
 - Fontes locais (Coolvetica, Meriva, St Camino Frontera, Helvetica): consulte as respectivas licenças antes de redistribuir.
 - Dados das unidades de saúde: _informar a fonte (ex.: dados abertos da prefeitura)_.
+
+## Uso de IA
+
+Usamos o Claude (Anthropic) como assistente de desenvolvimento front-end: organização do CSS, ajustes de interface com base no protótipo e correções de HTML e JavaScript. A concepção do projeto, os dados e as decisões de produto são da equipe.
 
 ## Equipe
 

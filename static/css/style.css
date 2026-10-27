@@ -30,7 +30,7 @@
 
 @font-face {
     font-family: "Coolvetica";
-    src: url("../fonts/coolvetica.ttf") format("opentype");
+    src: url("../fonts/coolvetica.ttf") format("truetype");
     font-display: swap;
 }
 
@@ -42,7 +42,7 @@
 
 @font-face {
     font-family: "St Camino Frontera";
-    src: url("../fonts/st-camino-frontera.ttf") format("opentype");
+    src: url("../fonts/st-camino-frontera.ttf") format("truetype");
     font-display: swap;
 }
 
@@ -188,6 +188,7 @@ header {
     background: #FFFFFF;
     border-radius: 12px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    z-index: 2000;
 }
 
 
@@ -208,6 +209,7 @@ header {
 /* Menu central */
 
 .menu-nara {
+    position: relative;
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -232,7 +234,7 @@ header {
     font-size: 13px;
     font-weight: 400;
 
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
 }
 
 .item-menu svg {
@@ -252,23 +254,39 @@ header {
     object-fit: contain;
 }
 
+/* Ícones do Font Awesome (<i>) */
+
+.item-menu i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    font-size: 20px;
+    line-height: 1;
+}
+
 .item-menu:hover,
 .item-menu.ativo {
     color: var(--cor-vinho);
 }
 
-/* Linha inferior do item selecionado */
+/* Linha inferior do item selecionado: desliza de um item para o outro
+   (posição e largura são definidas pelo script.js) */
 
-.item-menu.ativo::after {
-    content: "";
+.menu-indicador {
     position: absolute;
-    bottom: 0;
     left: 0;
-    right: 0;
+    bottom: 0;
 
+    width: 0;
     height: 3px;
+
     background: var(--cor-vinho);
     border-radius: 8px 8px 0 0;
+    pointer-events: none;
+
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Notificações e perfil à direita */
@@ -423,7 +441,7 @@ header {
    ========================================================================== */
 
 .filtros-mapa {
-    position: fixed;
+    position: absolute;
     top: 90px;
     left: 0;
     right: 0;
@@ -666,6 +684,7 @@ body:not(.site-ativo) .leaflet-marker-pane {
 
 #abas {
     position: relative;
+    scroll-margin-top: 80px;   /* o menu fixo não cobre as abas ao rolar até elas */
     z-index: 20;
     margin: calc(var(--altura-abas) * -1) 0 0;
     padding: 0;
@@ -861,6 +880,17 @@ body:not(.site-ativo) .leaflet-marker-pane {
 
 .card-grande .icone-card {
     width: clamp(52px, 5vw, 80px);
+}
+
+/* Ícones do Font Awesome (<i>) nos cartões */
+
+.card-beneficio > i {
+    font-size: clamp(34px, 3.4vw, 52px);
+    line-height: 1;
+}
+
+.card-grande > i {
+    font-size: clamp(44px, 4.6vw, 70px);
 }
 
 .card-texto {
@@ -1294,6 +1324,11 @@ body:not(.site-ativo) .leaflet-marker-pane {
     .item-menu img {
         width: 22px;
         height: 18px;
+    }
+
+    .item-menu i {
+        height: 18px;
+        font-size: 17px;
     }
 
     .acoes-nara {
